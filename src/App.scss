@@ -1,0 +1,42 @@
+// colors
+$white: #ffffff;
+$black: #000000;
+$fuchsia-blue: #7344c0;
+$fiord: #42506b;
+$eucalyptus: #25a95b;
+
+$havelock-blue: #4a90e2;
+$jelly-bean: #2571a9;
+$mischka: #dcdee4;
+$regent-gray: #8392a6;
+$aqua-haze: #f6f8fa;
+
+.main-content * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-content {
+  margin: auto;
+  min-width: 768px;
+}
+
+.canvas-container {
+  margin-top: 20px;
+  canvas {
+    box-sizing: border-box;
+    display: block;
+    width: 50%;
+    height: auto;
+    margin: auto;
+    border: 3px solid $regent-gray;
+    border-radius: 10px;
+    background-color: $white;
+
+    & + img {
+      display: none;
+      visibility: hidden;
+    }
+  }
+}
