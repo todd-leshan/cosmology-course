@@ -10,12 +10,8 @@ const mapStateToProps = state => ({
 const DopplerEffect = ({ velocity }) => {
   return (
     <>
-      <CanvasWithImg imagePath="star-small.png" velocity={velocity} />
-      <div className="controls-container">
-        <form action="#">
-          <VelocityControl />
-        </form>
-      </div>
+      <CanvasWithImg imageName="star-small.png" velocity={velocity} />
+      <VelocityControl />
     </>
   );
 };

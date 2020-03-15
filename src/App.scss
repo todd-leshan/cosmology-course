@@ -40,3 +40,21 @@ $aqua-haze: #f6f8fa;
     }
   }
 }
+
+.controls-container {
+  width: 50%;
+  margin: auto;
+  padding: 20px;
+
+  form {
+    text-align: left;
+    label {
+      display: block;
+      margin-bottom: 20px;
+
+      input[type="range"] {
+        width: 100%;
+      }
+    }
+  }
+}

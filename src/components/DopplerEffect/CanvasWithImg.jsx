@@ -21,7 +21,7 @@ export default class CanvasWithImg extends Component {
   }
 
   componentDidMount() {
-    import(`../../assets/${this.props.imagePath}`)
+    import(`../../assets/${this.props.imageName}`)
       .then(image => {
         this.setState({
           imageSrc: image.default
@@ -62,7 +62,6 @@ export default class CanvasWithImg extends Component {
   }
 
   applyVelocity(velocity) {
-    console.time("===== compute image data =====");
     if (this.originalImageData === null) {
       return;
     }
@@ -90,7 +89,6 @@ export default class CanvasWithImg extends Component {
     );
 
     this.ctx.putImageData(newImageData, 0, 0);
-    console.timeEnd("===== compute image data =====");
   }
 
   enhanceColor(pixelColor, factor) {
@@ -116,6 +114,6 @@ export default class CanvasWithImg extends Component {
 }
 
 CanvasWithImg.propTypes = {
-  imagePath: PropTypes.string.isRequired,
+  imageName: PropTypes.string.isRequired,
   velocity: PropTypes.number.isRequired
 };

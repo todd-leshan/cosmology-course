@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import { updateVelocity } from "../../redux/actions";
+import { LOG_SCALE_FACTORS } from "../../constants";
+import LogScale from "../../utils/logScale";
 
 const mapStateToProps = state => ({
   velocity: state.velocity
@@ -13,7 +15,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const VelocityControl = ({ velocity, dispatchUpdateVelocity }) => {
-  const [velocityInput, setVelocityInput] = useState(0);
+  const [velocityInput, setVelocityInput] = useState(velocity);
 
   const onVelocityInput = e => {
     const inputValue = e.target.value;
@@ -23,40 +25,49 @@ const VelocityControl = ({ velocity, dispatchUpdateVelocity }) => {
       return;
     }
 
-    const velocity = e.target.validity.valid ? parseInt(inputValue, 10) : 0;
+    const velocity = e.target.validity.valid ? parseInt(inputValue, 10) + 1 : 0;
 
     dispatchUpdateVelocity({ velocity });
   };
 
   const onRangeChange = e => {
     const inputValue = parseInt(e.target.value, 10);
-    setVelocityInput(inputValue);
-    dispatchUpdateVelocity({ velocity: inputValue });
+    const scaledValue = (
+      LogScale.getValue(inputValue) - LOG_SCALE_FACTORS.POS_OFFSET
+    ).toFixed(1);
+
+    setVelocityInput(scaledValue - 1);
+    dispatchUpdateVelocity({ velocity: Number(scaledValue) });
   };
 
   return (
-    <>
-      <label htmlFor="velocity-input">
-        Velocity (km/s){" "}
-        <input
-          type="number"
-          min="-100"
-          max="100"
-          id="velocity-input"
-          value={velocityInput}
-          onChange={onVelocityInput}
-        />
-      </label>
-      <label htmlFor="velocity-range">
-        <input
-          type="range"
-          min="-100"
-          max="100"
-          value={velocity}
-          onChange={onRangeChange}
-        />
-      </label>
-    </>
+    <div className="controls-container">
+      <form action="#">
+        <label htmlFor="velocity-input">
+          Velocity (km/s){" "}
+          <input
+            type="number"
+            min="-100"
+            max="100"
+            id="velocity-input"
+            value={velocityInput}
+            onChange={onVelocityInput}
+          />
+        </label>
+        <label htmlFor="velocity-range">
+          <input
+            id="velocity-slider"
+            type="range"
+            min={LOG_SCALE_FACTORS.MIN_POS}
+            max={LOG_SCALE_FACTORS.MAX_POS}
+            value={LogScale.getPosition(
+              velocity + LOG_SCALE_FACTORS.POS_OFFSET
+            )}
+            onChange={onRangeChange}
+          />
+        </label>
+      </form>
+    </div>
   );
 };
 
